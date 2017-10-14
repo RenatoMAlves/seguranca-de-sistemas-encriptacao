@@ -1,26 +1,29 @@
-var status = false;
+var banco;
+
+$(document).ready(function() {
+    $.getJSON( "bd/bd.json", function( json ) {
+        banco = json;
+    });
+});
 
 function verificaLogin() {
 
     var usuario = document.getElementById('inputUsuario').value;
     var senha = document.getElementById('inputSenha').value;
-    var bd;
 
-    $.getJSON( "bd/bd.json", function( json ) {
-        for (var i of json) {
-            if (i.usuario == usuario && i.senha == senha){
-                status = true;
-                return status;
-            }
-                
+    console.log(banco);
+    for (var user of banco) {
+        if (user.usuario == usuario && user.senha == senha){
+            return true;
         }
-    });
-    return status;
+    }
+    
+    return false;
    
 }
 
 function logar() {
-    if (this.verificaLogin() == true) {
+    if (this.verificaLogin()) {
         window.location.replace("encriptar.html");
     } else
         alert("Login incorreto");
